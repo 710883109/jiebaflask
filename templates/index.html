@@ -1,0 +1,14 @@
+<form method="POST" action="/textbox" enctype="multipart/form-data">
+    <input type="text" name="text">
+	<input type="submit" name="sendtext" value="送出">
+</form>
+<form method="POST" action="/upload" enctype="multipart/form-data">
+    <input type="file" name="csvfile">
+	<input type="submit" name="sendfile" value="送出">
+</form>
+
+
+
+{%for t in text%} 
+    <p>{{t}}</p>    
+{%endfor%}
