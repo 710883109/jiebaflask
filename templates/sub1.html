@@ -1,0 +1,74 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $('input[type="checkbox"]').checkboxradio({
+      icon: false
+    });
+  } );
+  </script>
+</head>
+<body>    
+    <div class="btn-group" data-toggle="buttons">
+        <form method="POST" action="/dua" enctype="multipart/form-data">
+            
+                   
+        <div id="selected">  
+            <h1>選取 </h1>               
+            {%for t in text%} 
+                <label class="btn btn-primary" id={{t}}l>
+                    {{t}}<input type="checkbox" name=upload id={{t}} value={{t}} checked autocomplete="off" onchange="movebox(this.id)" />
+                </label>        
+            {%endfor%}
+        </div>  
+        <div id ="noselected">
+            <h1>未選取</h1>    
+            {%for t in t2%} 
+                <label class="btn btn-primary" id={{t}}l>
+                    {{t}}<input type="checkbox" name=upload id={{t}}  value={{t}} autocomplete="off" onchange="movebox(this.id)" />
+                </label>    
+            {%endfor%}            
+        </div>
+        
+        <script>
+            function movebox(id){
+                var x=document.getElementById(id)
+                if(x.checked==true){
+                    alert(id+" is checked")
+                    var l=document.getElementById(id+"l")
+                    $('#selected').append(l)
+                }
+                else{
+                    alert(id+" nope")
+                    var l=document.getElementById(id+"l")
+                    $('#noselected').append(l)
+                }                
+            }
+        </script>
+    </div>
+    <h1>手動增加</h1>
+    <input type="text" name= "addtext" id="addtext">
+    <input type="button" name="addbut" value="手動增加" onclick="addbox()">
+    <script>
+        function addbox(){
+            var x=document.getElementById("addtext").value
+            var d=document.getElementById("{{text.0}}"+"l").textContent
+            var importlabel=document.importNode(document.getElementById("{{text.0}}"+"l"),true)
+            importlabel.id=x+"l"
+            importlabel.textContent=x
+            var importinput=document.importNode(document.getElementById("{{text.0}}"),true)
+            importinput.id=x
+            importinput.name=x
+            importlabel.appendChild(importinput)            
+            $('#selected').append(importlabel)
+        }
+    </script>
+    <h1>上傳</h1>
+    <input type="submit" name="submit" id="submit" value="submit" >
+    </form>
+</body>
+</html>
