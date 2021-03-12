@@ -13,6 +13,7 @@
   </script>
 </head>
 <body>    
+    <h1>原句是:{{origin}}</h1>
     <div class="btn-group" data-toggle="buttons">
         <form method="POST" action="/dua" enctype="multipart/form-data">
             
@@ -62,7 +63,7 @@
             importlabel.textContent=x
             var importinput=document.importNode(document.getElementById("{{text.0}}"),true)
             importinput.id=x
-	    importinput.value=x
+	        importinput.value=x
             importlabel.appendChild(importinput)            
             $('#selected').append(importlabel)
         }
