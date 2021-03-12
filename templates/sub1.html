@@ -62,7 +62,7 @@
             importlabel.textContent=x
             var importinput=document.importNode(document.getElementById("{{text.0}}"),true)
             importinput.id=x
-            importinput.name=x
+	    importinput.value=x
             importlabel.appendChild(importinput)            
             $('#selected').append(importlabel)
         }

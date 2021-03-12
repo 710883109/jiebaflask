@@ -10,14 +10,14 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     text=[]
-    with open('test.csv', encoding='utf-8') as csvfile:
+#    with open('test.csv', encoding='utf-8') as csvfile:
 # 讀取 CSV 檔案內容
-        rows = csv.reader(csvfile)
+#        rows = csv.reader(csvfile)
 # 以迴圈輸出每一列
-        for row in rows:
-            print(row)
-            text.append(row[0])
-    print(text)
+#        for row in rows:
+#            print(row)
+#            text.append(row[0])
+#    print(text)
     return render_template('index.html',text=text)
 
 @app.route("/textbox",methods=['POST'])
