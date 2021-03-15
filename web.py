@@ -42,7 +42,7 @@ def llama():
     for item in seg_list:#模組切割的詞
         if len(item)>1:
             in_list.append(item)
-    in_list=list(dict.fromkeys(in_list))
+    in_list=list(OrderedDict.fromkeys(in_list))
     print("in_list",in_list)
 
     for item in autocut_list:
