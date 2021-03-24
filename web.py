@@ -6,11 +6,17 @@ import jieba
 import json
 from werkzeug.utils import secure_filename
 from collections import OrderedDict
+from pymongo import MongoClient
+
 app = Flask(__name__)
 
+client = MongoClient("120.126.151.160", 27017)
+db=client.hand.test
 @app.route("/")
 def home():
     text=[]
+    #collection = client.hand.collection_names()
+    #text=collection
 #    with open('test.csv', encoding='utf-8') as csvfile:
 # 讀取 CSV 檔案內容
 #        rows = csv.reader(csvfile)
@@ -28,7 +34,7 @@ def llama():
     seg_list = jieba.cut(stringtext, cut_all=True)
     print("seg_list",seg_list)
     autocut_list=[ stringtext[x:x+2] for x in range(len(stringtext)-1)] 
-    print("autocut_list1",autocut_list)
+#    print("autocut_list1",autocut_list)
     for i in range(len(stringtext)-2):
         autocut_list.append(stringtext[i:i+3])
     for i in range(len(stringtext)-3):
@@ -43,6 +49,20 @@ def llama():
         if len(item)>1:
             in_list.append(item)
     in_list=list(OrderedDict.fromkeys(in_list))
+    print("after jieba",in_list)
+    for item in autocut_list:
+        print(item)
+        val=[]
+        for i in db.find({"word":item}):
+            val.append(i['number'])
+        print("now",val)
+        if val == []:
+            print("not found")
+            #print("find "+str(db.find({"word":item})))
+        else:
+            if item not in in_list:
+                in_list.append(item)
+                print("append")
     print("in_list",in_list)
 
     for item in autocut_list:
@@ -72,5 +92,19 @@ def goat():
     f = request.form.getlist('upload')
     print(f)
     out=json.dumps(f, ensure_ascii=False)
+    for item in f:
+        print("item",item)
+        val=[]
+        for i in db.find({"word":item}):
+            print(db.find({"word":item}))
+            val.append(i['number'])
+        print("123")
+        print(val)
+        if val != []:
+            print("update")
+            db.update({"word":item},{"word":item,"number":val[0]+1})
+        else:
+            print("insert")
+            db.insert({"word":item,"number":1})
     return out 
 app.run(host="0.0.0.0",port=7777,debug=True)
